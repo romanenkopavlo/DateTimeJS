@@ -10,7 +10,11 @@ let gapTime = document.getElementById("gapTime");
 
 let valueDate1;
 let valueDate2;
-let differenceOfDates;
+let daysInMonth;
+let differenceInDays;
+let days;
+let months;
+let years;
 
 date1.onchange = function () {
     valueDate1 = date1.valueAsDate.getTime();
@@ -47,16 +51,32 @@ time2.onchange = function () {
 }
 
 function differenceDates() {
-    differenceOfDates = Math.abs(valueDate2 - valueDate1) / (1000 * 3600 * 24);
-    if (differenceOfDates < 2) {
-        gapDate.innerText = "L'ecart est de " + differenceOfDates + " jour";
+    differenceInDays = Math.abs(valueDate2 - valueDate1) / (1000 * 3600 * 24);
+    daysInMonth = 0;
+    if (differenceInDays < 2) {
+        gapDate.innerText = "L'ecart est de " + differenceInDays + " jour";
     } else {
-        gapDate.innerText = "L'ecart est de " + differenceOfDates + " jours";
+        gapDate.innerText = "L'ecart est de " + differenceInDays + " jours";
     }
 
+    if (differenceInDays >= 31 && differenceInDays <= 365) {
+        if (differenceInDays % 31 === 0) {
+            months = differenceInDays / 31;
+            gapDate.innerText = "L'ecart est de " + months + " mois";
+        } else {
+            days = differenceInDays % 31;
+            months = Math.floor(differenceInDays / 31);
+            gapDate.innerText = "L'ecart est de " + days + " jours " +  months + " mois";
+        }
+    }
 }
 function differenceTimes() {
-    difference = Math.abs(valueTime2 - valueTime1);
+    if (valueTime1 > valueTime2) {
+        difference = ((1000 * 60 * 60 * 24) - valueTime1) + valueTime2;
+    } else {
+        difference = Math.abs(valueTime2 - valueTime1);
+    }
+
     differenceOfHours = Math.floor(difference / (1000 * 60 * 60));
     differenceOfMinutes = Math.floor((difference % (1000 * 60 * 60)) / (1000 * 60));
 
