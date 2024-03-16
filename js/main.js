@@ -20,6 +20,10 @@ let months = 0;
 let year = 0;
 
 date1.onchange = function () {
+    if (!date1IsChosen) {
+        date1IsChosen = true;
+        date2IsChosen = false;
+    }
     valueDate1 = date1.valueAsDate.getTime();
     if (valueDate2 != null) {
         differenceDates();
@@ -27,6 +31,10 @@ date1.onchange = function () {
 }
 
 date2.onchange = function () {
+    if (!date2IsChosen) {
+        date2IsChosen = true;
+        date1IsChosen = false;
+    }
     valueDate2 = date2.valueAsDate.getTime();
     if (valueDate1 != null) {
         differenceDates();
@@ -45,6 +53,8 @@ let differenceOfMinutes;
 let differenceOfYears;
 let monthsArray = [];
 let monthInstance = new Months();
+let date1IsChosen = false;
+let date2IsChosen = false;
 const milliSecondsInDay = 1000 * 3600 * 24;
 
 time1.onchange = function () {
@@ -71,7 +81,6 @@ function differenceDates() {
     differenceInDays = Math.abs(valueDate2 - valueDate1) / milliSecondsInDay;
 
 
-
     for (let i = 0; i < 12; i++) {
         switch (i) {
             case 0:
@@ -92,7 +101,7 @@ function differenceDates() {
                 monthsArray.push(monthInstance);
                 break;
             case 1:
-                if ((year2 % 4 === 0 && year2 % 100 !== 0) || (year2 % 400 === 0)) {
+                if (year2 % 4 === 0 || (month2 < 1)) {
                     daysInTheYear = 366;
                     monthInstance = new Months(i, 29);
                 } else {
@@ -104,23 +113,40 @@ function differenceDates() {
         }
     }
 
-    for (let i = month1; i < month2; i++) {
-        differenceInDays = differenceInDays - monthsArray[i].getDaysQuantity;
-        months++;
-    }
+    console.log(differenceInDays);
+    console.log(date1IsChosen + ' date1');
+    console.log(date2IsChosen + ' date2');
 
-    days = Math.abs(differenceInDays);
-
-    if (days >= daysInTheYear) {
-        if (differenceOfYears > 1) {
-            daysAnotherYear = Math.abs((days - (differenceOfYears * daysInTheYear)));
-        } else {
-            daysAnotherYear = Math.abs(days - daysInTheYear);
+    if (date2IsChosen) {
+        if (Math.abs(month1 - month2) !== 0) {
+            for (let i = month1; i < month2; i++) {
+                if (monthsArray[i].getDaysQuantity <= differenceInDays) {
+                    differenceInDays = differenceInDays - monthsArray[i].getDaysQuantity;
+                    months++;
+                }
+            }
         }
+
+        console.log(differenceInDays);
+
+        if (differenceInDays >= daysInTheYear) {
+            if (differenceOfYears > 1) {
+                daysAnotherYear = Math.abs((days - (differenceOfYears * daysInTheYear)));
+            } else {
+                daysAnotherYear = Math.abs(days - daysInTheYear);
+            }
+            year = Math.floor(days / daysInTheYear);
+            days = Math.abs(daysAnotherYear);
+        } else {
+            days = Math.abs(differenceInDays);
+        }
+
+    } else {
+        year = Math.floor(differenceInDays / daysInTheYear);
+        days = differenceInDays - daysInTheYear;
     }
 
-    if (days >= daysInTheYear && months > 0 && daysAnotherYear === 0) {
-        year = Math.floor(days / daysInTheYear);
+    if (year > 0 && months > 0) {
         if (year < 2) {
             gapDate.innerText = "L'ecart est de " + year + " annee " + months + " mois";
         } else {
@@ -128,39 +154,35 @@ function differenceDates() {
         }
     }
 
-    else if (days >= daysInTheYear && months > 0 && daysAnotherYear >= 2) {
-        year = Math.floor(days / daysInTheYear);
+    else if (year > 0 && months > 0) {
         if (year < 2) {
-            gapDate.innerText = "L'ecart est de " + year + " annne " + daysAnotherYear + " jours " + months + " mois";
+            gapDate.innerText = "L'ecart est de " + year + " annne " + days + " jours " + months + " mois";
         } else {
-            gapDate.innerText = "L'ecart est de " + year + " annnes " + daysAnotherYear + " jours " + months + " mois";
+            gapDate.innerText = "L'ecart est de " + year + " annnes " + days + " jours " + months + " mois";
         }
     }
 
-    else if (days >= daysInTheYear && months > 0 && daysAnotherYear < 2) {
-        year = Math.floor(days / daysInTheYear);
+    else if (year > 0 && months > 0) {
         if (year < 2) {
-            gapDate.innerText = "L'ecart est de " + year + " annne " + daysAnotherYear + " jour " + months + " mois";
+            gapDate.innerText = "L'ecart est de " + year + " annne " + days + " jour " + months + " mois";
         } else {
-            gapDate.innerText = "L'ecart est de " + year + " annnes " + daysAnotherYear + " jour " + months + " mois";
+            gapDate.innerText = "L'ecart est de " + year + " annnes " + days + " jour " + months + " mois";
         }
     }
 
-    else if (days >= daysInTheYear && months === 0 && daysAnotherYear >= 2) {
-        year = Math.floor(days / daysInTheYear);
+    else if (year > 0 && months === 0) {
         if (year < 2) {
-            gapDate.innerText = "L'ecart est de " + year + " annne " + daysAnotherYear + " jours";
+            gapDate.innerText = "L'ecart est de " + year + " annne " + days + " jours";
         } else {
-            gapDate.innerText = "L'ecart est de " + year + " annnes " + daysAnotherYear + " jours";
+            gapDate.innerText = "L'ecart est de " + year + " annnes " + days + " jours";
         }
     }
 
-    else if (days >= daysInTheYear && months === 0 && daysAnotherYear < 2) {
-        year = Math.floor(days / daysInTheYear);
+    else if (year > 0 && months === 0) {
         if (year < 2) {
-            gapDate.innerText = "L'ecart est de " + year + " annne " + daysAnotherYear + " jour";
+            gapDate.innerText = "L'ecart est de " + year + " annne " + days + " jour";
         } else {
-            gapDate.innerText = "L'ecart est de " + year + " annnes " + daysAnotherYear + " jour";
+            gapDate.innerText = "L'ecart est de " + year + " annnes " + days + " jour";
         }
     }
 
