@@ -20,6 +20,9 @@ let months = 0;
 let year = 0;
 
 date1.onchange = function () {
+    if (!isYearStart1) {
+        yearStart1 = date1.valueAsDate.getFullYear();
+    }
     valueDate1 = date1.valueAsDate.getTime();
     if (valueDate2 != null) {
         differenceDates();
@@ -27,8 +30,8 @@ date1.onchange = function () {
 }
 
 date2.onchange = function () {
-    if (!isYearStart) {
-        yearStart = date1.valueAsDate.getFullYear();
+    if (!isYearStart2) {
+        yearStart2 = date2.valueAsDate.getFullYear();
     }
     valueDate2 = date2.valueAsDate.getTime();
     if (valueDate1 != null) {
@@ -42,8 +45,10 @@ let month1;
 let month2;
 let year1;
 let year2;
-let yearStart;
-let isYearStart = false;
+let yearStart1;
+let yearStart2;
+let isYearStart1 = false;
+let isYearStart2 = false;
 let difference;
 let differenceOfHours;
 let differenceOfMinutes;
@@ -95,9 +100,9 @@ function differenceDates() {
                 monthsArray.push(monthInstance);
                 break;
             case 1:
-                console.log(yearStart);
+                console.log(yearStart1);
                 console.log(year2);
-                if ((((yearStart !== year2) && (year2 % 4 !== 0)) && (month2 < 1)) || (year2 % 4 === 0)) {
+                if ((((yearStart1 !== year2) && (year2 % 4 !== 0)) && (month2 < 1)) || (year2 % 4 === 0)) {
                     daysInTheYear = 366;
                     monthInstance = new Months(i, 29);
                 } else {
