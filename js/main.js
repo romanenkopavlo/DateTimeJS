@@ -97,7 +97,7 @@ function differenceDates() {
             case 1:
                 console.log(yearStart);
                 console.log(year2);
-                if ((((yearStart !== year2) && (year2 % 4 !== 0)) && (month2 < 1))) {
+                if ((((yearStart !== year2) && (year2 % 4 !== 0)) && (month2 < 1)) || (year2 % 4 === 0)) {
                     daysInTheYear = 366;
                     monthInstance = new Months(i, 29);
                 } else {
