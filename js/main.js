@@ -152,12 +152,13 @@ function differenceDates() {
                             daysBuffered2 = monthsArray[i].getDaysQuantity;
                         }
                     }
-                    if (months >= 12) {
-                        months = months - 12;
-                    }
-                    if (daysBuffered2 > 0) {
-                        getDifference = differenceInDays;
-                    }
+                }
+
+                if (months >= 12) {
+                    months = months - 12;
+                }
+                if (daysBuffered2 > 0) {
+                    getDifference = differenceInDays;
                 }
             } else {
                 for (let i = month1; i < 12; i++) {
