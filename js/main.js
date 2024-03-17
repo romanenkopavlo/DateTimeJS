@@ -318,7 +318,14 @@ function differenceDates() {
         }
     } else if (month2 === month1) {
         daysBuffered1 = differenceInDays;
-        if (year1 !== year2) {
+        if (year1 < year2) {
+            for (let i = 0; i < 12; i++) {
+                if (differenceInDays >= monthsArray[i].getDaysQuantity) {
+                    differenceInDays = differenceInDays - monthsArray[i].getDaysQuantity;
+                    months++;
+                }
+            }
+        } else {
             for (let i = 0; i < 12; i++) {
                 if (differenceInDays >= monthsArray[i].getDaysQuantity) {
                     differenceInDays = differenceInDays - monthsArray[i].getDaysQuantity;
