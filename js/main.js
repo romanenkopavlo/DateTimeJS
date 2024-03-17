@@ -159,24 +159,64 @@ function differenceDates() {
                         getDifference = differenceInDays;
                     }
                 }
-            }
-        } else {
-            for (let i = month1; i < 12; i++) {
-                console.log(differenceInDays);
-                if (differenceInDays >= monthsArray[i].getDaysQuantity) {
-                    differenceInDays = differenceInDays - monthsArray[i].getDaysQuantity;
-                    months++;
-                }
-                if (i === 11) {
-                    for (let j = 0; j < month2; j++) {
-                        if (differenceInDays >= monthsArray[i].getDaysQuantity) {
-                            differenceInDays = differenceInDays - monthsArray[i].getDaysQuantity;
-                            months++;
+            } else {
+                for (let i = month1; i < 12; i++) {
+                    if (differenceInDays >= monthsArray[i].getDaysQuantity) {
+                        differenceInDays = differenceInDays - monthsArray[i].getDaysQuantity;
+                        months++;
+                    }
+                    if (i === 11) {
+                        for (let j = 0; j < month2; j++) {
+                            if (differenceInDays >= monthsArray[i].getDaysQuantity) {
+                                differenceInDays = differenceInDays - monthsArray[i].getDaysQuantity;
+                                months++;
+                            }
                         }
                     }
                 }
+                days = Math.abs(differenceInDays);
             }
-            days = Math.abs(differenceInDays);
+        } else {
+            if (differenceInDays >= daysInTheYear) {
+                daysBuffered1 = differenceInDays;
+                differenceOfYears = Math.floor(daysBuffered1 / daysInTheYear);
+                differenceInDays = daysBuffered1 - (daysInTheYear * differenceOfYears);
+                days = Math.abs(daysBuffered1);
+                for (let i = month1; i < month2; i++) {
+                    if (differenceInDays >= monthsArray[i].getDaysQuantity) {
+                        differenceInDays = differenceInDays - monthsArray[i].getDaysQuantity;
+                        months++;
+                        if (differenceInDays !== monthsArray[i].getDaysQuantity) {
+                            getDifference = differenceInDays;
+                        } else {
+                            daysBuffered2 = monthsArray[i].getDaysQuantity;
+                        }
+                    }
+                }
+
+                if (months >= 12) {
+                    months = months - 12;
+                }
+                if (daysBuffered2 > 0) {
+                    getDifference = differenceInDays;
+                }
+            } else {
+                for (let i = month2; i < 12; i++) {
+                    if (differenceInDays >= monthsArray[i].getDaysQuantity) {
+                        differenceInDays = differenceInDays - monthsArray[i].getDaysQuantity;
+                        months++;
+                    }
+                    if (i === 11) {
+                        for (let j = 0; j < month1; j++) {
+                            if (differenceInDays >= monthsArray[i].getDaysQuantity) {
+                                differenceInDays = differenceInDays - monthsArray[i].getDaysQuantity;
+                                months++;
+                            }
+                        }
+                    }
+                }
+                days = Math.abs(differenceInDays);
+            }
         }
     } else if (month2 < month1) {
         if (year1 < year2) {
@@ -219,7 +259,6 @@ function differenceDates() {
                 }
             } else {
                 for (let i = month1; i < 12; i++) {
-                    console.log(differenceInDays);
                     if (differenceInDays >= monthsArray[i].getDaysQuantity) {
                         differenceInDays = differenceInDays - monthsArray[i].getDaysQuantity;
                         months++;
@@ -261,7 +300,6 @@ function differenceDates() {
                 }
             } else {
                 for (let i = month2; i < 12; i++) {
-                    console.log(differenceInDays);
                     if (differenceInDays >= monthsArray[i].getDaysQuantity) {
                         differenceInDays = differenceInDays - monthsArray[i].getDaysQuantity;
                         months++;
