@@ -1,3 +1,5 @@
+// noinspection DuplicatedCode
+
 import Months from "./Months.js";
 
 let date1 = document.getElementById("date1");
@@ -53,6 +55,9 @@ let difference;
 let differenceOfHours;
 let differenceOfMinutes;
 let differenceOfYears;
+let daysBuffered1;
+let daysBuffered2;
+let getDifference;
 let monthsArray = [];
 let monthInstance = new Months();
 const milliSecondsInDay = 1000 * 3600 * 24;
@@ -100,8 +105,6 @@ function differenceDates() {
                 monthsArray.push(monthInstance);
                 break;
             case 1:
-                console.log(yearStart1);
-                console.log(year2);
                 if ((((yearStart1 !== year2) && (year2 % 4 !== 0)) && (month2 < 1)) || (year2 % 4 === 0)) {
                     daysInTheYear = 366;
                     monthInstance = new Months(i, 29);
@@ -114,22 +117,201 @@ function differenceDates() {
         }
     }
 
-    for (let i = month1; i < month2; i++) {
-        if (differenceInDays >= monthsArray[i].getDaysQuantity) {
-            differenceInDays = differenceInDays - monthsArray[i].getDaysQuantity;
-            months++;
+    if (year1 === year2) {
+        if (month2 > month1) {
+            for (let i = month1; i < month2; i++) {
+                if (differenceInDays >= monthsArray[i].getDaysQuantity) {
+                    differenceInDays = differenceInDays - monthsArray[i].getDaysQuantity;
+                    months++;
+                }
+            }
+        } else if (month2 < month1) {
+            for (let i = month2; i < month1; i++) {
+                if (differenceInDays >= monthsArray[i].getDaysQuantity) {
+                    differenceInDays = differenceInDays - monthsArray[i].getDaysQuantity;
+                    months++;
+                }
+            }
+        }
+        days = Math.abs(differenceInDays);
+
+    } else if (month2 > month1) {
+        if (year2 > year1) {
+            daysBuffered1 = differenceInDays;
+            if (daysBuffered1 >= daysInTheYear) {
+                differenceOfYears = Math.floor(daysBuffered1 / daysInTheYear);
+                differenceInDays = differenceInDays - (daysInTheYear * differenceOfYears);
+                days = Math.abs(daysBuffered1);
+                for (let i = month1; i < month2; i++) {
+                    if (differenceInDays >= monthsArray[i].getDaysQuantity) {
+                        differenceInDays = differenceInDays - monthsArray[i].getDaysQuantity;
+                        months++;
+                        if (differenceInDays !== monthsArray[i].getDaysQuantity) {
+                            getDifference = differenceInDays;
+                        } else {
+                            daysBuffered2 = monthsArray[i].getDaysQuantity;
+                        }
+                    }
+                    if (months >= 12) {
+                        months = months - 12;
+                    }
+                    if (daysBuffered2 > 0) {
+                        getDifference = differenceInDays;
+                    }
+                }
+            }
+        } else {
+            for (let i = month1; i < 12; i++) {
+                console.log(differenceInDays);
+                if (differenceInDays >= monthsArray[i].getDaysQuantity) {
+                    differenceInDays = differenceInDays - monthsArray[i].getDaysQuantity;
+                    months++;
+                }
+                if (i === 11) {
+                    for (let j = 0; j < month2; j++) {
+                        if (differenceInDays >= monthsArray[i].getDaysQuantity) {
+                            differenceInDays = differenceInDays - monthsArray[i].getDaysQuantity;
+                            months++;
+                        }
+                    }
+                }
+            }
+            days = Math.abs(differenceInDays);
+        }
+    } else if (month2 < month1) {
+        if (year1 < year2) {
+            if (differenceInDays >= daysInTheYear) {
+                daysBuffered1 = differenceInDays;
+                differenceOfYears = Math.floor(daysBuffered1 / daysInTheYear);
+                differenceInDays = daysBuffered1 - (daysInTheYear * differenceOfYears);
+                days = Math.abs(daysBuffered1);
+                for (let i = month1; i < 12; i++) {
+                    if (differenceInDays >= monthsArray[i].getDaysQuantity) {
+                        differenceInDays = differenceInDays - monthsArray[i].getDaysQuantity;
+                        months++;
+                        if (differenceInDays !== monthsArray[i].getDaysQuantity) {
+                            getDifference = differenceInDays;
+                        } else {
+                            daysBuffered2 = monthsArray[i].getDaysQuantity;
+                        }
+                    }
+                    if (i === 11) {
+                        for (let j = 0; j < month2; j++) {
+                            if (differenceInDays >= monthsArray[i].getDaysQuantity) {
+                                differenceInDays = differenceInDays - monthsArray[i].getDaysQuantity;
+                                months++;
+                                if (differenceInDays !== monthsArray[i].getDaysQuantity) {
+                                    getDifference = differenceInDays;
+                                } else {
+                                    daysBuffered2 = monthsArray[i].getDaysQuantity;
+                                }
+                            }
+                        }
+                    }
+                }
+
+                if (months >= 12) {
+                    months = months - 12;
+                }
+
+                if (daysBuffered2 > 0) {
+                    getDifference = differenceInDays;
+                }
+            } else {
+                for (let i = month1; i < 12; i++) {
+                    console.log(differenceInDays);
+                    if (differenceInDays >= monthsArray[i].getDaysQuantity) {
+                        differenceInDays = differenceInDays - monthsArray[i].getDaysQuantity;
+                        months++;
+                    }
+                    if (i === 11) {
+                        for (let j = 0; j < month2; j++) {
+                            if (differenceInDays >= monthsArray[i].getDaysQuantity) {
+                                differenceInDays = differenceInDays - monthsArray[i].getDaysQuantity;
+                                months++;
+                            }
+                        }
+                    }
+                }
+                days = Math.abs(differenceInDays);
+            }
+        } else {
+            if (differenceInDays >= daysInTheYear) {
+                daysBuffered1 = differenceInDays;
+                differenceOfYears = Math.floor(daysBuffered1 / daysInTheYear);
+                differenceInDays = daysBuffered1 - (daysInTheYear * differenceOfYears);
+                days = Math.abs(daysBuffered1);
+                for (let i = month2; i < month1; i++) {
+                    if (differenceInDays >= monthsArray[i].getDaysQuantity) {
+                        differenceInDays = differenceInDays - monthsArray[i].getDaysQuantity;
+                        months++;
+                        if (differenceInDays !== monthsArray[i].getDaysQuantity) {
+                            getDifference = differenceInDays;
+                        } else {
+                            daysBuffered2 = monthsArray[i].getDaysQuantity;
+                        }
+                    }
+                }
+
+                if (months >= 12) {
+                    months = months - 12;
+                }
+                if (daysBuffered2 > 0) {
+                    getDifference = differenceInDays;
+                }
+            } else {
+                for (let i = month2; i < 12; i++) {
+                    console.log(differenceInDays);
+                    if (differenceInDays >= monthsArray[i].getDaysQuantity) {
+                        differenceInDays = differenceInDays - monthsArray[i].getDaysQuantity;
+                        months++;
+                    }
+                    if (i === 11) {
+                        for (let j = 0; j < month1; j++) {
+                            if (differenceInDays >= monthsArray[i].getDaysQuantity) {
+                                differenceInDays = differenceInDays - monthsArray[i].getDaysQuantity;
+                                months++;
+                            }
+                        }
+                    }
+                }
+                days = Math.abs(differenceInDays);
+            }
+        }
+    } else if (month2 === month1) {
+        daysBuffered1 = differenceInDays;
+        if (year1 !== year2) {
+            for (let i = 0; i < 12; i++) {
+                if (differenceInDays >= monthsArray[i].getDaysQuantity) {
+                    differenceInDays = differenceInDays - monthsArray[i].getDaysQuantity;
+                    months++;
+                }
+            }
+        }
+
+        if (daysBuffered1 >= daysInTheYear) {
+            days = Math.abs(daysBuffered1);
+            months = 0;
+        } else {
+            days = Math.abs(differenceInDays);
         }
     }
 
-    console.log(daysInTheYear);
-
-    days = Math.abs(differenceInDays);
+    setAdditionalDays();
 
     if (days >= daysInTheYear) {
         if (differenceOfYears > 1) {
-            daysAnotherYear = Math.abs((days - (differenceOfYears * daysInTheYear)));
+            if (getDifference >= 0) {
+                daysAnotherYear = getDifference;
+            } else {
+                daysAnotherYear = Math.abs((days - (differenceOfYears * daysInTheYear)));
+            }
         } else {
-            daysAnotherYear = Math.abs(days - daysInTheYear);
+            if (getDifference >= 0) {
+                daysAnotherYear = getDifference;
+            } else {
+                daysAnotherYear = Math.abs(days - daysInTheYear);
+            }
         }
     }
 
@@ -218,5 +400,21 @@ function differenceTimes() {
         gapTime.innerText = "L'ecart est de " + differenceOfHours + ":" + "0" + differenceOfMinutes;
     } else {
         gapTime.innerText = "L'ecart est de " + differenceOfHours + ":" + differenceOfMinutes;
+    }
+}
+
+function setAdditionalDays() {
+    if ((year2 - year1) > 0) {
+        for (let i = 0; i < (year2 - year1); i++) {
+            if ((year1 + i + 1) % 4 === 0) {
+                days += 1;
+            }
+        }
+    } else if ((year2 - year1) < 0) {
+        for (let i = 0; i < Math.abs(year1 - year2); i++) {
+            if ((year2 + i + 1) % 4 === 0) {
+                days += 1;
+            }
+        }
     }
 }
