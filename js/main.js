@@ -335,8 +335,6 @@ function differenceDates() {
         }
     }
 
-    setAdditionalDays();
-
     if (days >= daysInTheYear) {
         if (differenceOfYears > 1) {
             if (getDifference >= 0) {
@@ -438,21 +436,5 @@ function differenceTimes() {
         gapTime.innerText = "L'ecart est de " + differenceOfHours + ":" + "0" + differenceOfMinutes;
     } else {
         gapTime.innerText = "L'ecart est de " + differenceOfHours + ":" + differenceOfMinutes;
-    }
-}
-
-function setAdditionalDays() {
-    if ((year2 - year1) > 0) {
-        for (let i = 0; i < (year2 - year1); i++) {
-            if ((year1 + i + 1) % 4 === 0) {
-                days += 1;
-            }
-        }
-    } else if ((year2 - year1) < 0) {
-        for (let i = 0; i < Math.abs(year1 - year2); i++) {
-            if ((year2 + i + 1) % 4 === 0) {
-                days += 1;
-            }
-        }
     }
 }
