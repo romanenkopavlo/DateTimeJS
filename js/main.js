@@ -134,73 +134,53 @@ function differenceDates() {
             }
         }
         days = Math.abs(differenceInDays);
-
     } else if (month2 > month1) {
         if (year2 > year1) {
             daysBuffered1 = differenceInDays;
-            if (daysBuffered1 >= daysInTheYear) {
-                differenceOfYears = Math.floor(daysBuffered1 / daysInTheYear);
-                differenceInDays = differenceInDays - (daysInTheYear * differenceOfYears);
-                days = Math.abs(daysBuffered1);
-                for (let i = month1; i < month2; i++) {
-                    if (differenceInDays >= monthsArray[i].getDaysQuantity) {
-                        differenceInDays = differenceInDays - monthsArray[i].getDaysQuantity;
-                        months++;
-                        if (differenceInDays !== monthsArray[i].getDaysQuantity) {
-                            getDifference = differenceInDays;
-                        } else {
-                            daysBuffered2 = monthsArray[i].getDaysQuantity;
+            differenceOfYears = Math.floor(daysBuffered1 / daysInTheYear);
+            differenceInDays = differenceInDays - (daysInTheYear * differenceOfYears);
+            days = Math.abs(daysBuffered1);
+            for (let i = month1; i < 12; i++) {
+                if (differenceInDays >= monthsArray[i].getDaysQuantity) {
+                    differenceInDays = differenceInDays - monthsArray[i].getDaysQuantity;
+                    months++;
+                }
+                if (i === 11) {
+                    for (let j = 0; j < month2; j++) {
+                        if (differenceInDays >= monthsArray[i].getDaysQuantity) {
+                            differenceInDays = differenceInDays - monthsArray[i].getDaysQuantity;
+                            months++;
                         }
                     }
                 }
+            }
 
-                if (months >= 12) {
-                    months = months - 12;
-                }
-                if (daysBuffered2 > 0) {
-                    getDifference = differenceInDays;
-                }
+            if (days < daysInTheYear) {
+                days = differenceInDays;
             } else {
-                for (let i = month1; i < 12; i++) {
-                    if (differenceInDays >= monthsArray[i].getDaysQuantity) {
-                        differenceInDays = differenceInDays - monthsArray[i].getDaysQuantity;
-                        months++;
-                    }
-                    if (i === 11) {
-                        for (let j = 0; j < month2; j++) {
-                            if (differenceInDays >= monthsArray[i].getDaysQuantity) {
-                                differenceInDays = differenceInDays - monthsArray[i].getDaysQuantity;
-                                months++;
-                            }
-                        }
-                    }
-                }
-                days = Math.abs(differenceInDays);
+                getDifference = differenceInDays;
             }
         } else {
-            if (differenceInDays >= daysInTheYear) {
-                daysBuffered1 = differenceInDays;
-                differenceOfYears = Math.floor(daysBuffered1 / daysInTheYear);
-                differenceInDays = daysBuffered1 - (daysInTheYear * differenceOfYears);
-                days = Math.abs(daysBuffered1);
-                for (let i = month1; i < month2; i++) {
-                    if (differenceInDays >= monthsArray[i].getDaysQuantity) {
-                        differenceInDays = differenceInDays - monthsArray[i].getDaysQuantity;
-                        months++;
-                        if (differenceInDays !== monthsArray[i].getDaysQuantity) {
-                            getDifference = differenceInDays;
-                        } else {
-                            daysBuffered2 = monthsArray[i].getDaysQuantity;
+            daysBuffered1 = differenceInDays;
+            differenceOfYears = Math.floor(daysBuffered1 / daysInTheYear);
+            differenceInDays = daysBuffered1 - (daysInTheYear * differenceOfYears);
+            days = Math.abs(daysBuffered1);
+            for (let i = month1; i < 12; i++) {
+                if (differenceInDays >= monthsArray[i].getDaysQuantity) {
+                    differenceInDays = differenceInDays - monthsArray[i].getDaysQuantity;
+                    months++;
+                }
+                if (i === 11) {
+                    for (let j = 0; j < month2; j++) {
+                        if (differenceInDays >= monthsArray[i].getDaysQuantity) {
+                            differenceInDays = differenceInDays - monthsArray[i].getDaysQuantity;
+                            months++;
                         }
                     }
                 }
-
-                if (months >= 12) {
-                    months = months - 12;
-                }
-                if (daysBuffered2 > 0) {
-                    getDifference = differenceInDays;
-                }
+            }
+            if (days <= daysInTheYear) {
+                days = differenceInDays;
             } else {
                 for (let i = month2; i < 12; i++) {
                     if (differenceInDays >= monthsArray[i].getDaysQuantity) {
@@ -216,109 +196,66 @@ function differenceDates() {
                         }
                     }
                 }
-                days = Math.abs(differenceInDays);
+                getDifference = differenceInDays;
             }
         }
     } else if (month2 < month1) {
         if (year1 < year2) {
-            if (differenceInDays >= daysInTheYear) {
-                daysBuffered1 = differenceInDays;
-                differenceOfYears = Math.floor(daysBuffered1 / daysInTheYear);
-                differenceInDays = daysBuffered1 - (daysInTheYear * differenceOfYears);
-                days = Math.abs(daysBuffered1);
-                for (let i = month1; i < 12; i++) {
-                    if (differenceInDays >= monthsArray[i].getDaysQuantity) {
-                        differenceInDays = differenceInDays - monthsArray[i].getDaysQuantity;
-                        months++;
-                        if (differenceInDays !== monthsArray[i].getDaysQuantity) {
-                            getDifference = differenceInDays;
-                        } else {
-                            daysBuffered2 = monthsArray[i].getDaysQuantity;
-                        }
-                    }
-                    if (i === 11) {
-                        for (let j = 0; j < month2; j++) {
-                            if (differenceInDays >= monthsArray[i].getDaysQuantity) {
-                                differenceInDays = differenceInDays - monthsArray[i].getDaysQuantity;
-                                months++;
-                                if (differenceInDays !== monthsArray[i].getDaysQuantity) {
-                                    getDifference = differenceInDays;
-                                } else {
-                                    daysBuffered2 = monthsArray[i].getDaysQuantity;
-                                }
-                            }
+            daysBuffered1 = differenceInDays;
+            differenceOfYears = Math.floor(daysBuffered1 / daysInTheYear);
+            differenceInDays = daysBuffered1 - (daysInTheYear * differenceOfYears);
+            days = Math.abs(daysBuffered1);
+            for (let i = month1; i < 12; i++) {
+                if (differenceInDays >= monthsArray[i].getDaysQuantity) {
+                    differenceInDays = differenceInDays - monthsArray[i].getDaysQuantity;
+                    months++;
+                }
+                if (i === 11) {
+                    for (let j = 0; j < month2; j++) {
+                        if (differenceInDays >= monthsArray[i].getDaysQuantity) {
+                            differenceInDays = differenceInDays - monthsArray[i].getDaysQuantity;
+                            months++;
                         }
                     }
                 }
+            }
 
-                if (months >= 12) {
-                    months = months - 12;
-                }
-
-                if (daysBuffered2 > 0) {
-                    getDifference = differenceInDays;
-                }
+            if (days < daysInTheYear) {
+                days = differenceInDays;
             } else {
-                for (let i = month1; i < 12; i++) {
-                    if (differenceInDays >= monthsArray[i].getDaysQuantity) {
-                        differenceInDays = differenceInDays - monthsArray[i].getDaysQuantity;
-                        months++;
-                    }
-                    if (i === 11) {
-                        for (let j = 0; j < month2; j++) {
-                            if (differenceInDays >= monthsArray[i].getDaysQuantity) {
-                                differenceInDays = differenceInDays - monthsArray[i].getDaysQuantity;
-                                months++;
-                            }
-                        }
-                    }
-                }
-                days = Math.abs(differenceInDays);
+                getDifference = differenceInDays;
             }
         } else {
-            if (differenceInDays >= daysInTheYear) {
-                daysBuffered1 = differenceInDays;
-                differenceOfYears = Math.floor(daysBuffered1 / daysInTheYear);
-                differenceInDays = daysBuffered1 - (daysInTheYear * differenceOfYears);
-                days = Math.abs(daysBuffered1);
-                for (let i = month2; i < month1; i++) {
-                    if (differenceInDays >= monthsArray[i].getDaysQuantity) {
-                        differenceInDays = differenceInDays - monthsArray[i].getDaysQuantity;
-                        months++;
-                        if (differenceInDays !== monthsArray[i].getDaysQuantity) {
-                            getDifference = differenceInDays;
-                        } else {
-                            daysBuffered2 = monthsArray[i].getDaysQuantity;
+            daysBuffered1 = differenceInDays;
+            differenceOfYears = Math.floor(daysBuffered1 / daysInTheYear);
+            differenceInDays = daysBuffered1 - (daysInTheYear * differenceOfYears);
+            days = Math.abs(daysBuffered1);
+            for (let i = month2; i < 12; i++) {
+                if (differenceInDays >= monthsArray[i].getDaysQuantity) {
+                    differenceInDays = differenceInDays - monthsArray[i].getDaysQuantity;
+                    months++;
+                }
+                if (i === 11) {
+                    for (let j = 0; j < month1; j++) {
+                        if (differenceInDays >= monthsArray[i].getDaysQuantity) {
+                            differenceInDays = differenceInDays - monthsArray[i].getDaysQuantity;
+                            months++;
                         }
                     }
                 }
+            }
 
-                if (months >= 12) {
-                    months = months - 12;
-                }
-                if (daysBuffered2 > 0) {
-                    getDifference = differenceInDays;
-                }
+            if (days < daysInTheYear) {
+                days = differenceInDays;
             } else {
-                for (let i = month2; i < 12; i++) {
-                    if (differenceInDays >= monthsArray[i].getDaysQuantity) {
-                        differenceInDays = differenceInDays - monthsArray[i].getDaysQuantity;
-                        months++;
-                    }
-                    if (i === 11) {
-                        for (let j = 0; j < month1; j++) {
-                            if (differenceInDays >= monthsArray[i].getDaysQuantity) {
-                                differenceInDays = differenceInDays - monthsArray[i].getDaysQuantity;
-                                months++;
-                            }
-                        }
-                    }
-                }
-                days = Math.abs(differenceInDays);
+                getDifference = differenceInDays;
             }
         }
     } else if (month2 === month1) {
         daysBuffered1 = differenceInDays;
+        differenceOfYears = Math.floor(daysBuffered1 / daysInTheYear);
+        differenceInDays = daysBuffered1 - (daysInTheYear * differenceOfYears);
+        days = Math.abs(daysBuffered1);
 
         for (let i = 0; i < 12; i++) {
             if (differenceInDays >= monthsArray[i].getDaysQuantity) {
@@ -327,11 +264,10 @@ function differenceDates() {
             }
         }
 
-        if (daysBuffered1 >= daysInTheYear) {
-            days = Math.abs(daysBuffered1);
-            months = 0;
+        if (days <= daysInTheYear) {
+            days = differenceInDays;
         } else {
-            days = Math.abs(differenceInDays);
+            getDifference = differenceInDays;
         }
     }
 
@@ -358,6 +294,10 @@ function differenceDates() {
         } else {
             gapDate.innerText = "L'ecart est de " + year + " annees " + months + " mois";
         }
+    }
+
+    else if ((months === 12 || months === 0) && days === 0 && (year1 !== year2)) {
+        gapDate.innerText = "L'ecart est de 1 annnee";
     }
 
     else if (days >= daysInTheYear && months > 0 && daysAnotherYear >= 2) {
