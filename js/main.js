@@ -296,7 +296,7 @@ function differenceDates() {
     }
 
     else if ((months === 12 || months === 0) && days === 0 && (year1 !== year2)) {
-        gapDate.innerText = "L'ecart est de 1 annnee";
+        gapDate.innerText = "L'ecart est de 1 annee";
     }
 
     else if (days >= daysInTheYear && months > 0 && daysAnotherYear >= 2) {
